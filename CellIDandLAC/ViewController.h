@@ -10,6 +10,10 @@
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *cellID;
+@property (weak, nonatomic) IBOutlet UILabel *LAC;
+
+
 
 @end
 
