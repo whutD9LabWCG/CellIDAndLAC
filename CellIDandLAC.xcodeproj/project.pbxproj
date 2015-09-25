@@ -14,7 +14,9 @@
 		3E6D2D951B50EA950033206E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E6D2D931B50EA950033206E /* Main.storyboard */; };
 		3E6D2D971B50EA950033206E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E6D2D961B50EA950033206E /* Assets.xcassets */; };
 		3E6D2D9A1B50EA950033206E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E6D2D981B50EA950033206E /* LaunchScreen.storyboard */; };
+		3E9F759E1B5CAC4C00A1168C /* SubwayStationAndCID.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E9F759D1B5CAC4C00A1168C /* SubwayStationAndCID.plist */; };
 		3EDC5F451B538884009FDF99 /* SaveToPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC5F441B538884009FDF99 /* SaveToPlist.m */; };
+		3EDD8BF71B64C565007345DF /* NSTimer+TimerBlocksSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDD8BF61B64C565007345DF /* NSTimer+TimerBlocksSupport.m */; };
 		3EF109CF1B574D38001A4951 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EF109CE1B574D38001A4951 /* CoreTelephony.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,8 +34,11 @@
 		3E6D2D991B50EA950033206E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E6D2D9B1B50EA950033206E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E6D2DA41B50EB5A0033206E /* CoreTelephony.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreTelephony.h; sourceTree = "<group>"; };
+		3E9F759D1B5CAC4C00A1168C /* SubwayStationAndCID.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SubwayStationAndCID.plist; sourceTree = "<group>"; };
 		3EDC5F431B538884009FDF99 /* SaveToPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveToPlist.h; sourceTree = "<group>"; };
 		3EDC5F441B538884009FDF99 /* SaveToPlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveToPlist.m; sourceTree = "<group>"; };
+		3EDD8BF51B64C565007345DF /* NSTimer+TimerBlocksSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+TimerBlocksSupport.h"; sourceTree = "<group>"; };
+		3EDD8BF61B64C565007345DF /* NSTimer+TimerBlocksSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+TimerBlocksSupport.m"; sourceTree = "<group>"; };
 		3EF109CE1B574D38001A4951 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -78,6 +83,9 @@
 				3E0D7F271B52AEC600D57D87 /* MachTimer.m */,
 				3EDC5F431B538884009FDF99 /* SaveToPlist.h */,
 				3EDC5F441B538884009FDF99 /* SaveToPlist.m */,
+				3EDD8BF51B64C565007345DF /* NSTimer+TimerBlocksSupport.h */,
+				3EDD8BF61B64C565007345DF /* NSTimer+TimerBlocksSupport.m */,
+				3E9F759D1B5CAC4C00A1168C /* SubwayStationAndCID.plist */,
 				3E6D2D931B50EA950033206E /* Main.storyboard */,
 				3E6D2D961B50EA950033206E /* Assets.xcassets */,
 				3E6D2D981B50EA950033206E /* LaunchScreen.storyboard */,
@@ -165,6 +173,7 @@
 				3E6D2D9A1B50EA950033206E /* LaunchScreen.storyboard in Resources */,
 				3E6D2D971B50EA950033206E /* Assets.xcassets in Resources */,
 				3E6D2D951B50EA950033206E /* Main.storyboard in Resources */,
+				3E9F759E1B5CAC4C00A1168C /* SubwayStationAndCID.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +188,7 @@
 				3E6D2D921B50EA950033206E /* ViewController.m in Sources */,
 				3EDC5F451B538884009FDF99 /* SaveToPlist.m in Sources */,
 				3E6D2D8F1B50EA950033206E /* AppDelegate.m in Sources */,
+				3EDD8BF71B64C565007345DF /* NSTimer+TimerBlocksSupport.m in Sources */,
 				3E6D2D8C1B50EA950033206E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

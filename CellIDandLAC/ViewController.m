@@ -9,8 +9,10 @@
 #import "ViewController.h"
 #import "CoreTelephony.h"
 #import "SaveToPlist.h"
+#import "NSTimer+TimerBlocksSupport.h"
 
 #import "MachTimer.h"
+#import "AppDelegate.h"
 
 @interface ViewController ()<UIAlertViewDelegate>
 {
@@ -22,7 +24,13 @@
     NSMutableArray *arrayOfDicts;
     
     MachTimer *timer;
+    MachTimer *timer2;
     float elapsedTime;
+    
+    NSTimer *timerToCountSeconds;
+    NSString *nameOfSubwayStation;
+    BOOL checkInFlag;
+    BOOL isFirstStoreSubwayStation;
     
     UIAlertView *clearErrorDataAlert;
     UIAlertView *clearAllDataAlert;
@@ -35,6 +43,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *clearErrorBtn;
 @property (weak, nonatomic) IBOutlet UIButton *clearAllBtn;
 @property (weak, nonatomic) IBOutlet UIButton *saveLocationData;
+@property (weak, nonatomic) IBOutlet UIButton *checkInBtn;
 
 @end
 
@@ -42,18 +51,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     arrayOfCellIDS  = [[NSMutableArray alloc]init];
     dictOfCellID_Time = [[NSMutableDictionary alloc]init];
     dictOfOneLocation = [[NSMutableDictionary alloc]init];
     arrayOfDicts = [[NSMutableArray alloc]init];
+    nameOfSubwayStation = @"";
+    isFirstStoreSubwayStation = NO;
+    checkInFlag = NO;
     isFinished = NO;
     timer = [MachTimer timer];
+    timer2 = [MachTimer timer];
     
     self.startBtn.enabled = YES;
     self.endBtn.enabled = NO;
     self.clearErrorBtn.enabled = NO;
     self.saveLocationData.enabled = NO;
+    self.checkInBtn.enabled = NO;
     
     self.locationName.enabled = NO;
     
@@ -77,6 +90,7 @@
     self.endBtn.enabled = YES;
     self.clearErrorBtn.enabled = YES;
     self.saveLocationData.enabled = NO;
+    self.checkInBtn.enabled = YES;
     
     self.locationName.enabled = NO;
 }
@@ -193,6 +207,49 @@
                 
                 [timer start];
             }
+            if (checkInFlag) {
+                
+                
+                //判断是否接入内部CID
+                CMLog(@"判断是否接入内部CID");
+                BOOL isExistInSubwayStationAndCIDPlist = NO;
+                NSMutableDictionary *dictOfSubwayStationAndCID = [self readDataFromSubwayStationAndCIDPlist];
+                for(id keyForEachStation in dictOfSubwayStationAndCID){
+                    NSArray *arrayOfCIDS = [[dictOfSubwayStationAndCID objectForKey:keyForEachStation] objectForKey:@"CIDS"];
+                    for (NSString * CID in arrayOfCIDS) {
+                        if ([[dict objectForKey:@"CID"] isEqualToString:CID]) {
+                            isExistInSubwayStationAndCIDPlist = YES;
+                            NSLog(@"==============%@",keyForEachStation);
+                            nameOfSubwayStation = keyForEachStation;
+                            isFirstStoreSubwayStation = YES;
+                        }
+                        else {
+                            NSLog(@"没有匹配到基站ID!");
+                        }
+                        
+                    }
+                    
+                }
+                if (isExistInSubwayStationAndCIDPlist) {
+                    if (isFirstStoreSubwayStation) {
+                        [self startTimer];
+                        [timer2 start];
+                    }
+                    else{
+                        
+                        if (![[dict objectForKey:@"CID"] isEqualToString:[arrayOfCellIDS lastObject]]) {
+                            [self startTimer];
+                            [timer2 start];
+                        }
+                    }
+                }
+                else{
+                    
+                    [self stopTimer];
+                    isFirstStoreSubwayStation = NO;
+                }
+            }
+
         }
     }
     else NSLog(@"fishedddddddddd");
@@ -202,6 +259,57 @@
     self.cellID.text = [NSString stringWithFormat:@"%@",[dict objectForKey:@"CID"]];
 }
 
+- (void)startTimer
+{
+    if (timerToCountSeconds) {
+        [timerToCountSeconds invalidate];
+        timerToCountSeconds = nil;
+    }
+    
+    __weak ViewController *weakSelf = self;
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
+            timerToCountSeconds = [NSTimer timerBlocks_scheduledTimerWithTimerInteval:15.0
+                                                                                block:^{
+                                                                                    ViewController *strongSelf = weakSelf;
+                                                                                    [strongSelf showSubwayStationName];
+                                                                                }
+                                                                              repeats:YES];
+//        });
+//    });
+}
+- (void)stopTimer
+{
+    if (timerToCountSeconds != nil) {
+//        [timerToCountSeconds setFireDate:[NSDate distantFuture]];
+        [timerToCountSeconds invalidate];
+        timerToCountSeconds = nil;
+    }
+}
+
+- (void)showSubwayStationName
+{
+    MARK;
+    float enddd = [timer2 elapsedSeconds];
+    NSLog(@"-----------------%f",enddd);
+    if (nameOfSubwayStation.length) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示消息"
+                                                       message:nameOfSubwayStation
+                                                      delegate:nil
+                                             cancelButtonTitle:@"OK"
+                                             otherButtonTitles:nil];
+        [alert show];
+        
+        [timerToCountSeconds invalidate];
+        timerToCountSeconds = nil;
+        checkInFlag = NO;
+    }
+}
+
+- (IBAction)checkIsInSubwayStation:(UIButton *)sender {
+    self.checkInBtn.enabled = NO;
+    checkInFlag = YES;
+}
 #pragma mark -  清除数据
 
 - (IBAction)clearTheErrorData:(UIButton *)sender {
@@ -256,6 +364,15 @@
     }
 }
 
+#pragma mark - 工程路径的站点和CIDplist读取
+
+- (NSMutableDictionary *)readDataFromSubwayStationAndCIDPlist
+{
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"SubwayStationAndCID" ofType:@"plist"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+    return dict;
+}
+
 
 #pragma mark -  通知的註冊和發送
 - (void)viewWillAppear:(BOOL)animated
@@ -269,10 +386,21 @@
 {
     [super viewDidDisappear:YES];
     [self deregisterNotification];
+    
+    if(timerToCountSeconds)
+    {
+        [timerToCountSeconds invalidate];
+        timerToCountSeconds = nil;
+    }
 }
 
 - (void)dealloc {
     [self deregisterNotification];
+    if(timerToCountSeconds)
+    {
+        [timerToCountSeconds invalidate];
+        timerToCountSeconds = nil;
+    }
 }
 
 -(void)deregisterNotification
@@ -347,4 +475,12 @@
     [_saveLocationData setBackgroundImage:[self imageWithColor:[UIColor darkGrayColor]] forState:UIControlStateDisabled];
 }
 
+- (void)setCheckInBtn:(UIButton *)checkInBtn
+{
+    _checkInBtn = checkInBtn;
+    [_checkInBtn setBackgroundImage:[self imageWithColor:[UIColor purpleColor]] forState:UIControlStateNormal];
+    [_checkInBtn setBackgroundImage:[self imageWithColor:[UIColor darkGrayColor]] forState:UIControlStateDisabled];
+}
+
 @end
+

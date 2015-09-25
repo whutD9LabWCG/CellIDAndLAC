@@ -125,14 +125,38 @@
                                     <action selector="saveBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AWm-Ib-ZrL"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAp-WQ-38C">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="检测进站">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="178" y="101" width="122" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="checkIsInSubwayStation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SoL-xP-wd3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="dAp-WQ-38C"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="dAp-WQ-38C"/>
+                            </mask>
+                        </variation>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
                         <outlet property="LAC" destination="ecR-3A-ect" id="xyn-SW-7Rk"/>
                         <outlet property="cellID" destination="j3R-Ls-grb" id="kNp-cM-jjD"/>
+                        <outlet property="checkInBtn" destination="dAp-WQ-38C" id="wId-Ln-dHu"/>
                         <outlet property="clearAllBtn" destination="4tj-HQ-EIk" id="ByV-RW-YdP"/>
                         <outlet property="clearErrorBtn" destination="qqZ-Ls-utM" id="y15-t8-vfm"/>
                         <outlet property="endBtn" destination="ixC-O9-aTV" id="SKb-t1-snP"/>
